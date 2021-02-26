@@ -18,10 +18,11 @@ public class menu : MonoBehaviour
 
     public void Load()
     {
-        PlayerSaveData data = SaveSystem.LoadPlayer();
+
+        
+       //// PlayerSaveData data = SaveSystem.LoadPlayer();
         SceneManager.LoadScene("Skyrim");
-        Debug.Log("Continue");
-      
+        PlayerPrefs.GetInt("health");
         Time.timeScale = 1f;
         
     }

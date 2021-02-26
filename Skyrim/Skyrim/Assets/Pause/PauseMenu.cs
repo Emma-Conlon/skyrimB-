@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     public static bool GameisPaused = true;
-  
+   public PlayerSaveData playerpos;
     public DayNight day;
     public GameObject pauseMenuUI;
 
@@ -16,7 +16,7 @@ public class PauseMenu : MonoBehaviour
 
     void Start()
     {
-       
+        playerpos = FindObjectOfType<PlayerSaveData>();
     }
     // Update is called once per frame
     void Update()
@@ -63,9 +63,9 @@ public class PauseMenu : MonoBehaviour
 
     public void LoadingMenu()
     {
-        Time.timeScale = 1f;
-
-        SceneManager.LoadScene("MENU");
+        playerpos = FindObjectOfType<PlayerSaveData>();
+        playerpos.SavePlayers();
+        SceneManager.LoadScene("Menu");
     }
 
     public void Quit()

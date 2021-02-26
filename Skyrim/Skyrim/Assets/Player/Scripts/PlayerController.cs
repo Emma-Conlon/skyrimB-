@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
     public float lookSpeed = 2.0f;
     public float lookXLimit = 45.0f;
     private bool menuSystem = true;
-  
+    public PlayerSaveData playerpos;
   
     CharacterController characterController;
     Vector3 moveDirection = Vector3.zero;
@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour
             CUBE.SetActive(false);
             text();
             ques.SetActive(true);
-            CUBE.
+          
         }
     }
     IEnumerator text()
@@ -71,17 +71,12 @@ public class PlayerController : MonoBehaviour
         ques.SetActive(false);
     }
 
-    public void SavePlayers()
-    {
-        SaveSystem.SavePlayer(this);
-        PlayerPrefs.GetInt("health",currentHealth);
+   
 
-        Debug.Log(PlayerPrefs.GetInt("health"));
-    }
-
-    public void NewGame()
+    public void Awake()
     {
-       
+        playerpos = FindObjectOfType<PlayerSaveData>();
+        playerpos.LoadPlayers();
     }
 
     public void lostHealth()
@@ -89,16 +84,7 @@ public class PlayerController : MonoBehaviour
         gameover.SetActive(true);
     }
 
-    public void LoadPlayers()
-    {
-        PlayerSaveData data = SaveSystem.LoadPlayer();
-        currentHealth = data.health;
-        Vector3 position;
-        position.x = data.position[0];
-        position.y = data.position[1];
-        position.z = data.position[2];
-        transform.position = position;
-    }
+  
     void Start()
     {
         characterController = GetComponent<CharacterController>();
@@ -116,6 +102,7 @@ public class PlayerController : MonoBehaviour
    
     void Update()
     {
+       
         // Get inputs for animations
         InputY = Input.GetAxis("Vertical");
         InputX = Input.GetAxis("Horizontal");
@@ -186,8 +173,10 @@ public class PlayerController : MonoBehaviour
         //temporary health system
           if(Input.GetKeyDown(KeyCode.H))
           {
+            
             TakeDamage(5);
-            if(currentHealth<=0)
+            //SavePlayers();
+            if (currentHealth<=0)
             {
                 lostHealth();
             }
@@ -245,6 +234,7 @@ public class PlayerController : MonoBehaviour
             
         }
     }
+   
     private void Quests()
     {
         if (Input.GetKeyDown(KeyCode.Q))//pause 

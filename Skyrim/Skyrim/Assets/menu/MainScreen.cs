@@ -23,7 +23,7 @@ public class MainScreen : MonoBehaviour
 
     public void Load()
     {
-        PlayerSaveData data = SaveSystem.LoadPlayer();
+       
         Debug.Log("Continue");
         pause.SetActive(false);
         Time.timeScale = 1f;
