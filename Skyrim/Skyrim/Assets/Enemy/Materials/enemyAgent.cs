@@ -35,7 +35,7 @@ public class enemyAgent : MonoBehaviour
         theAgent = GetComponent<NavMeshAgent>();
         animator = this.gameObject.GetComponent<Animator>();
         currentHealth = maxHealth;
-        healthBar.SetMaxHealth(maxHealth);
+     
 
     }
     void takeDamage(int damage)

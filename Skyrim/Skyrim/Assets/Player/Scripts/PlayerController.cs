@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
@@ -10,6 +11,8 @@ using System.Runtime.Serialization.Formatters.Binary;
 public class PlayerController : MonoBehaviour
 {
     public Animator animator;
+    public GameObject Objectives;
+    public Quest quests;
     public int maxHealth = 100;
     public int currentHealth;
     public HealthBar healthBar;
@@ -22,6 +25,8 @@ public class PlayerController : MonoBehaviour
     public float Sprint;
     public float Crouch;
     public float Jump;
+    public GameObject ques;
+    public GameObject CUBE;
     public float Extra;
     [HideInInspector]
     public bool pause;
@@ -33,6 +38,7 @@ public class PlayerController : MonoBehaviour
     public float runningSpeed = 11.5f;
     public float jumpSpeed = 8.0f;
     public float gravity = 20.0f;
+    public GameObject Npc_Text;
     public Camera playerCamera;
     public float lookSpeed = 2.0f;
     public float lookXLimit = 45.0f;
@@ -45,6 +51,25 @@ public class PlayerController : MonoBehaviour
 
     [HideInInspector]
     public bool canMove = true;
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Quest"))
+        {
+            Debug.Log("Work");
+            CUBE.SetActive(false);
+            text();
+            ques.SetActive(true);
+
+        }
+    }
+    IEnumerator text()
+    {
+        Npc_Text.GetComponent<Text>().text = "COMPLETED QUEST 1";
+        Npc_Text.SetActive(true);
+        yield return new WaitForSeconds(5.5f);
+        ques.SetActive(false);
+    }
 
     public void SavePlayers()
     {
@@ -173,6 +198,10 @@ public class PlayerController : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.P))
         PauseScreen();
+
+        if (Input.GetKeyDown(KeyCode.Q))
+            Quests();
+
     }
 
     void TakeDamage(int damage)
@@ -197,12 +226,45 @@ public class PlayerController : MonoBehaviour
                 Cursor.visible = false;
                 lookActive = false;
                 canMove = true;
+                quests.back = false;
                 day.pause = false;
                 pause = false;
             }
             else
             {
                 pause = true;
+                // Lock cursor
+                Cursor.lockState = CursorLockMode.None;
+                //Cursor.visible = true;
+                lookActive = false;
+                quests.back = true;
+                canMove = false;
+                day.pause = true;
+
+            }
+            
+        }
+    }
+    private void Quests()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))//pause 
+        {
+
+            if (lookActive == true)
+            {
+                Objectives.SetActive(false);
+                // Lock cursor
+                menuSystem = false;
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                lookActive = false;
+                canMove = true;
+                day.pause = false;
+            
+            }
+            else
+            {
+                Objectives.SetActive(true);
                 // Lock cursor
                 Cursor.lockState = CursorLockMode.None;
                 //Cursor.visible = true;
