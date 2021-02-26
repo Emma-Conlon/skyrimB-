@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour
             CUBE.SetActive(false);
             text();
             ques.SetActive(true);
-
+            CUBE.
         }
     }
     IEnumerator text()
